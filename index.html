@@ -1,1 +1,25 @@
-<h1>test</h1>
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<div id="app">
+    <div class="container">
+    		<form class="mt-5">
+    				<div class="form-group">
+    						<label for="email">Email</label>
+    						<input type="email" v-bind:value="email" class="form-control form-control-lg">
+    				</div>
+    				<button type="button" class="btn btn-primary">Submit</button>
+    		</form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+
+<script>
+	new Vue({
+		el: '#app',
+		data: {
+			email: 'mike@example.com'
+		}
+	})
+</script>
