@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                Bootstrap
+            </a>
+        </div>
+    </nav>
+    <section id="app">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="mt-4">{{ header.toUpperCase() }}</h1>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Base Font Size</label>
+                        <select class="custom-select" id="baseSize" aria-label="Example select with button addon">
+                            <option selected>Base Font Size</option>
+                            <option v-for="(item, index) in baseSizeList" v-bind:value="baseSizeList[index]">{{ item }}</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div v-if="state === 'edit'" class="form-group">
+                        <label for="exampleInputEmail1">Add new base size item</label>
+                        <input type="text" v-model="baseSizeNewItem" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number" @keyup.enter="saveItem()">
+                        <p class="small">{{characterCount}}/100</p>
+                    </div>
+                    <div v-else class="form-group">
+                        <label for="exampleInputEmail1">Add new sizes</label>
+                        <a href="#" class="btn btn-outline-primary mb-3 d-block" @click="changeState('edit')">Add new sizes</a>
+                    </div>
+                </div>
+                <div v-if="state === 'edit'" class="col-md-4">
+                    <div class="form-group d-flex align-items-center h-100">
+                        <a href="#" class="btn btn-outline-primary" :class="{ disabled: (baseSizeNewItem.length === 0) }" @click="saveItem()">Save item</a>
+                        <a href="#" class="btn btn-outline-danger ml-2" @click="changeState('default')">Cancel</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Base Font Size</label>
+                        <select class="custom-select" id="baseSize" aria-label="Example select with button addon">
+                            <option selected>Base Font Size</option>
+                            <option v-for="(item, index) in reverseOrder" v-bind:value="reverseOrder[index]">{{ item }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Rem</label>
+                        <input type="number" v-model="remSize" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Px</label>
+                        <input type="number" v-model="pxSize" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-right">
+                    <a href="#" class="btn btn-outline-primary mr-2">Clear</a>
+                    <a href="#" class="btn btn-primary">Calulate</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            state: 'default',
+            header: 'Px to rem converter',
+            baseSize: null,
+            remSize: null,
+            pxSize: null,
+            baseSizeList: [
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+            ],
+            baseSizeNewItem: ''
+        },
+        computed: {
+            characterCount() {
+                return this.baseSizeNewItem.length;
+            },
+            reverseOrder () {
+              return this.baseSizeList.reverse();
+            }
+        },
+        methods: {
+            saveItem: function() {
+                this.baseSizeList.push(this.baseSizeNewItem);
+                this.baseSizeNewItem = "";
+            },
+            changeState: function(newState) {
+                this.state = newState;
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>
